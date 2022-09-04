@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">FoodHelperApp</string>
+    <string name="consumed_food_button_text">INSERT CONSUMED FOOD</string>
+    <string name="database_button_text">CHECK AVAILABLE FOODS</string>
+    <string name="profile_button_text">GO TO PROFILE</string>
+    <string name="tips_button_text">DIET TIPS</string>
+    <string name="search_button_text">Search</string>
+    <string name="water_button_text">ADD WATER</string>
+    <string name="search_text_view_text">Search for recipe...</string>
+    <string name="water_text_view_text">Insert amount of water (ml)</string>
+    <string name="add_new_food_button">NOT HERE?</string>
+    <string name="grams_text_view_text">Insert amount (in grams)</string>
+    <string name="add_food_from_list_button">ADD</string>
+
+</resources>
