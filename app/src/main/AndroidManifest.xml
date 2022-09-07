@@ -9,12 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodHelperApp">
-        <activity android:name=".NewFoodActivity"></activity>
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".MealActivity"></activity>
+        <activity android:name=".WeightActivity" />
         <activity android:name=".TipActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".DatabaseActivity" />
-        <activity android:name=".FoodConsumedActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.maquk.foodhelperapp.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +15,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void goToFoodConsumedActivity(View view) {
-        Intent intent = new Intent(this, FoodConsumedActivity.class);
+    public void goToMealActivity(View view) {
+        Intent intent = new Intent(this, MealActivity.class);
 
         startActivity(intent);
     }
 
-    public void goToDatabaseActivity(View view) {
-        Intent intent = new Intent(this, DatabaseActivity.class);
+    public void goToWeightActivity(View view) {
+        Intent intent = new Intent(this, WeightActivity.class);
 
         startActivity(intent);
     }
