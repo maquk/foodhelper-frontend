@@ -6,4 +6,140 @@
     android:layout_height="match_parent"
     tools:context=".MealActivity">
 
+    <TextView
+        android:id="@+id/addMealTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/add_meal_text_view_text"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/waterEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/water_edit_text_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addMealTextView"
+        android:importantForAutofill="no" />
+
+    <Button
+        android:id="@+id/waterButtonAdd"
+        android:layout_width="46dp"
+        android:layout_height="49dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="addWater"
+        android:text="@string/plus"
+        app:layout_constraintBaseline_toBaselineOf="@+id/waterEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintStart_toEndOf="@+id/waterEditText" />
+
+    <Button
+        android:id="@+id/waterButtonSubtract"
+        android:layout_width="46dp"
+        android:layout_height="49dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="subtractWater"
+        android:text="@string/minus"
+        app:layout_constraintBaseline_toBaselineOf="@+id/waterEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.265"
+        app:layout_constraintStart_toEndOf="@+id/waterButtonAdd" />
+
+    <EditText
+        android:id="@+id/recipeEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/recipe_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waterEditText"
+        android:importantForAutofill="no" />
+
+    <Button
+        android:id="@+id/recipeSearchButton"
+        android:layout_width="104dp"
+        android:layout_height="46dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="searchForRecipe"
+        android:text="@string/search_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/recipeEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toEndOf="@+id/recipeEditText" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="355dp"
+        android:layout_height="459dp"
+        app:layout_constraintBottom_toTopOf="@+id/portionEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipeEditText">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/portionEditText"
+        android:layout_width="203dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="@string/portion_hint"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/copyRecipeButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/portionButton"
+        android:layout_width="104dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="goToMainActivity"
+        android:text="@string/save_text"
+        app:layout_constraintBottom_toTopOf="@+id/newRecipeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.357"
+        app:layout_constraintStart_toEndOf="@+id/portionEditText" />
+
+    <Button
+        android:id="@+id/copyRecipeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="copyRecipe"
+        android:text="@string/copy_recipe_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/newRecipeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="createNewRecipe"
+        android:text="@string/new_recipe_button_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/copyRecipeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/copyRecipeButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

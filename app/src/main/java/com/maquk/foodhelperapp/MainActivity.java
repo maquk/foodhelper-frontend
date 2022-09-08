@@ -15,6 +15,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void selectDate(View view) {
+        // select date and refresh list and graphs
+
+
+    }
+
     public void goToMealActivity(View view) {
         Intent intent = new Intent(this, MealActivity.class);
 

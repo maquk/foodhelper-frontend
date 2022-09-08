@@ -13,6 +13,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
+        android:contentDescription="@string/profile_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -22,6 +23,7 @@
         android:layout_width="237dp"
         android:layout_height="75dp"
         android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="selectDate"
         android:text="07-09-2022"
         app:layout_constraintEnd_toStartOf="@+id/imageButton"
         app:layout_constraintHorizontal_bias="0.468"
@@ -65,11 +67,12 @@
         app:layout_constraintStart_toEndOf="@+id/weightButton" />
 
     <ScrollView
-        android:layout_width="2dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
-        tools:layout_editor_absoluteX="191dp">
+        android:layout_width="336dp"
+        android:layout_height="567dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton">
 
         <LinearLayout
             android:layout_width="match_parent"
