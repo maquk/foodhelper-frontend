@@ -32,8 +32,8 @@
 
     <ScrollView
         android:id="@+id/scrollView4"
-        android:layout_width="354dp"
-        android:layout_height="510dp"
+        android:layout_width="346dp"
+        android:layout_height="358dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

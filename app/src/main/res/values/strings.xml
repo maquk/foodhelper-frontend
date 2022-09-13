@@ -39,5 +39,14 @@
     <string name="fat_hint">Insert amount of fat...</string>
     <string name="carbohydrates_text">Carbohydrates</string>
     <string name="carbohydrates_hint">Insert carbohydrates...</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forwards"><![CDATA[->]]></string>
+    <string name="select_date">Select date</string>
+    <string name="tips_text">
+        <a href="https://nutritionstripped.com/">https://nutritionstripped.com/</a> - Articles on mindset, nourishment, lifestyle and health. McKel Kooienga is the founder of Nutrition Stripped. Her work focuses on empowering others to rebalance mindsets, habits, and practices around food to mindfully nourish themselves in an easy, aligned, and enjoyable.\n
+        <a href="https://www.myhdiet.com/healthnews/">https://www.myhdiet.com/healthnews/</a> - Health tips, education, diet recipes, healing stories and more. The Hallelujah Diet helps you live a healthy, vibrant life. It\'s a plant-based, clean food diet based on scientifically proven principles and research.\n
+        <a href="https://therealfooddietitians.com/blog/">https://therealfooddietitians.com/blog/</a> - Features recipes for each, plus tips for meal prep efficiency. Not only are there tons of dietitian-authored recipes, but you can also opt in for customized meal plans. The Real Food Dietitians is the passion-driven product of Registered Dietitian Nutritionists who have combined their love of nutrition, health, and real food with the concepts of ease and convenience to bring you recipes that are big on flavor but short on ingredients.\n
+        <a href="https://karalydon.com/blog/">https://karalydon.com/blog/</a> - Covers articles on health and wellness, intuitive eating, recipes, travel, yoga and mindfulness. Kara is a registered dietitian and blogger on a mission to inspire you to find a joyful love of food and peaceful balance in life.\n
+        <a href="https://diettogo.com/blog">https://diettogo.com/blog</a> - Covers articles on nutrition science, psychology, weight loss, recipes, lifestyle and wellness, kitchen tips, healthy snack ideas, exercise tips and more. Diet-to-Go is a meal delivery company focused on making healthy eating both easy and affordable. Our goal is to change perceptions of what it means to eat healthy and help our customers achieve and maintain a healthy weight for life.</string>
 
 </resources>

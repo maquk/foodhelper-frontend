@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodHelperApp">
-        <activity android:name=".ProductActivity"></activity>
+        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".ProductActivity" />
         <activity android:name=".IngredientActivity" />
         <activity android:name=".RecipeActivity" />
         <activity android:name=".MealActivity" />

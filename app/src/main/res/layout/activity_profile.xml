@@ -22,11 +22,13 @@
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:text="Your Name"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toEndOf="@+id/imageButton2"
-        tools:layout_editor_absoluteY="37dp"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -53,4 +55,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/heightEditText"
         tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="359dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heightEditText"
+        app:layout_constraintVertical_bias="0.522">
+        <com.anychart.AnyChartView
+            android:id="@+id/chartWeight"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+        <com.anychart.AnyChartView
+            android:id="@+id/chartBMI"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="40dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
