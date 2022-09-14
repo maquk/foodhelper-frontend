@@ -80,15 +80,16 @@
         app:layout_constraintStart_toEndOf="@+id/recipeEditText" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="355dp"
-        android:layout_height="459dp"
-        app:layout_constraintBottom_toTopOf="@+id/portionEditText"
+        android:id="@+id/recipeScrollView"
+        android:layout_width="351dp"
+        android:layout_height="276dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeEditText">
 
-        <LinearLayout
+        <TableLayout
+            android:id="@+id/recipeTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
@@ -99,23 +100,22 @@
         android:layout_width="203dp"
         android:layout_height="46dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="@string/portion_hint"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/copyRecipeButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipeScrollView" />
 
     <Button
         android:id="@+id/portionButton"
         android:layout_width="104dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="20dp"
         android:backgroundTint="@android:color/holo_blue_light"
         android:onClick="goToMainActivity"
         android:text="@string/save_text"
-        app:layout_constraintBottom_toTopOf="@+id/newRecipeButton"
+        app:layout_constraintBaseline_toBaselineOf="@+id/portionEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.357"
         app:layout_constraintStart_toEndOf="@+id/portionEditText" />
@@ -125,12 +125,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="@android:color/holo_blue_light"
         android:onClick="copyRecipe"
         android:text="@string/copy_recipe_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/portionEditText" />
 
     <Button
         android:id="@+id/newRecipeButton"

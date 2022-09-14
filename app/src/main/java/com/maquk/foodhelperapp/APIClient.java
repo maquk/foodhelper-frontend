@@ -1,7 +1,5 @@
 package com.maquk.foodhelperapp;
 
-import com.maquk.retrofitintro.pojo.MultipleResource;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,7 +17,7 @@ class APIClient {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://reqres.in")
+                .baseUrl("http://192.168.0.101:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
