@@ -1,18 +1,23 @@
 package com.maquk.foodhelperapp;
 
+import com.maquk.foodhelperapp.pojo.Meal;
+import com.maquk.foodhelperapp.pojo.Nutrient;
 import com.maquk.foodhelperapp.pojo.Product;
 import com.maquk.foodhelperapp.pojo.Recipe;
 import com.maquk.foodhelperapp.pojo.Water;
 import com.maquk.foodhelperapp.pojo.Weight;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 interface APIInterface {
 
@@ -43,10 +48,13 @@ interface APIInterface {
     @POST("/weights/")
     Call<Weight> addWeight(@Body Weight weight);
 
-    /*@GET("/api/users?")
-    Call<UserList> doGetUserList(@Query("page") String page);
+    @Headers({"Accept: application/json"})
+    @GET("/weights/")
+    Call<List<Weight>> findAllByDateBetween(@Query("fromDate") LocalDate fromDate, @Query("toDate") LocalDate toDate);
 
-    @FormUrlEncoded
-    @POST("/api/users?")
-    Call<UserList> doCreateUserWithField(@Field("name") String name, @Field("job") String job);*/
+    @POST("/meals/")
+    Call<Meal> createMeal(@Body Meal meal);
+
+    @GET("/meals/")
+    Call<Nutrient> findAllByDate(@Query("date") LocalDate date);
 }

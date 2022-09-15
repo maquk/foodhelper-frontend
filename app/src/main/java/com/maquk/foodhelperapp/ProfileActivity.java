@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anychart.APIlib;
 import com.anychart.AnyChart;
@@ -19,22 +23,52 @@ import com.anychart.enums.Anchor;
 import com.anychart.enums.MarkerType;
 import com.anychart.enums.TooltipPositionMode;
 import com.anychart.graphics.vector.Stroke;
+import com.maquk.foodhelperapp.pojo.Product;
+import com.maquk.foodhelperapp.pojo.Weight;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProfileActivity extends AppCompatActivity {
+    APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+    List<Weight> weights = new ArrayList<>();
+    BigDecimal height;
+    EditText heightEditText;
+    AnyChartView chartWeight;
+    AnyChartView chartBMI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        AnyChartView chartWeight = findViewById(R.id.chartWeight);
-        setChartWeight(chartWeight);
+        heightEditText = findViewById(R.id.heightEditText);
 
-        AnyChartView chartBMI = findViewById(R.id.chartBMI);
-        setChartBMI(chartBMI);
+        getWeights();
+
+        chartWeight = findViewById(R.id.chartWeight);
+        chartBMI = findViewById(R.id.chartBMI);
+    }
+
+    private void getWeights() {
+        Call<List<Weight>> call = apiInterface.findAllByDateBetween(LocalDate.now().minusMonths(1), LocalDate.now());
+        call.enqueue(new Callback<List<Weight>>() {
+            @Override
+            public void onResponse(Call<List<Weight>> call, Response<List<Weight>> response) {
+                weights.addAll(response.body());
+            }
+            @Override
+            public void onFailure(Call<List<Weight>> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     private void setChartBMI(AnyChartView chart) {
@@ -59,13 +93,14 @@ public class ProfileActivity extends AppCompatActivity {
         cartesian.xAxis(0).labels().padding(5d);
 
         List<DataEntry> seriesData = new ArrayList<>();
-        seriesData.add(new ValueDataEntry("2022-09-07", 20.8));
-        seriesData.add(new ValueDataEntry("2022-09-08", 24.2));
-        seriesData.add(new ValueDataEntry("2022-09-09", 27.7));
-        seriesData.add(new ValueDataEntry("2022-09-10", 31.1));
-        seriesData.add(new ValueDataEntry("2022-09-11", 34.6));
-        seriesData.add(new ValueDataEntry("2022-09-12", 38.1));
-        seriesData.add(new ValueDataEntry("2022-09-13", 31.1));
+
+        for (Weight weight : weights
+        ) {
+            BigDecimal weightInKg = weight.getKilograms();
+            BigDecimal heightInM = height.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            seriesData.add(new ValueDataEntry(String.valueOf(weight.getDate()), weightInKg.divide(heightInM.pow(2), 2, RoundingMode.HALF_UP)));
+
+        }
 
         Set set = Set.instantiate();
         set.data(seriesData);
@@ -112,13 +147,12 @@ public class ProfileActivity extends AppCompatActivity {
         cartesian.xAxis(0).labels().padding(5d);
 
         List<DataEntry> seriesData = new ArrayList<>();
-        seriesData.add(new ValueDataEntry("2022-09-07", 60));
-        seriesData.add(new ValueDataEntry("2022-09-08", 70));
-        seriesData.add(new ValueDataEntry("2022-09-09", 80));
-        seriesData.add(new ValueDataEntry("2022-09-10", 90));
-        seriesData.add(new ValueDataEntry("2022-09-11", 100));
-        seriesData.add(new ValueDataEntry("2022-09-12", 110));
-        seriesData.add(new ValueDataEntry("2022-09-13", 90));
+
+
+        for (Weight weight : weights
+             ) {
+            seriesData.add(new ValueDataEntry(String.valueOf(weight.getDate()), weight.getKilograms()));
+        }
 
         Set set = Set.instantiate();
         set.data(seriesData);
@@ -144,8 +178,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
     
     public void saveHeight(View view) {
-        //calculate BMI and refresh BMI graph
+        height = BigDecimal.valueOf(Long.parseLong(heightEditText.getText().toString()));
 
+        setChartWeight(chartWeight);
+        setChartBMI(chartBMI);
 
     }
 }

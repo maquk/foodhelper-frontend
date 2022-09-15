@@ -34,6 +34,8 @@ public class IngredientActivity extends AppCompatActivity {
         tableLayout = findViewById(R.id.productTable);
         ingredientEditText = findViewById(R.id.ingredientEditText);
         gramsEditText = findViewById(R.id.gramsEditText);
+
+
     }
 
     private void getProducts() {
@@ -41,6 +43,11 @@ public class IngredientActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 tableLayout.removeAllViews();
                 List<Product> products = response.body();
                 for (Product product : products) {
@@ -71,8 +78,8 @@ public class IngredientActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RecipeActivity.class);
         intent.putExtra("GRAMS", grams);
         intent.putExtra("PRODUCT_NAME", chosenProductName);
-
-        startActivity(intent);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     public void goToProductActivity(View view) {

@@ -70,6 +70,6 @@ public class ProductActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, IngredientActivity.class);
 
-        startActivity(intent);
+        finish();
     }
 }

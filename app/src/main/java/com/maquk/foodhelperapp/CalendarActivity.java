@@ -30,7 +30,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         String datePassed = null;
         Bundle extras = getIntent().getExtras();
         if(extras != null) datePassed = extras.getString("STRING_DATE");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         System.out.println(datePassed);
         if(!datePassed.equals("SELECT DATE")) {
             selectedDate = LocalDate.parse(datePassed, formatter);
@@ -83,7 +83,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
     private String monthYearFromDate(LocalDate date)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return date.format(formatter);
     }
 
