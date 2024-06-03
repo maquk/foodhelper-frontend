@@ -12,6 +12,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -57,4 +58,10 @@ interface APIInterface {
 
     @GET("/meals/")
     Call<Nutrient> findAllByDate(@Query("date") LocalDate date);
+
+    @GET("/waters/")
+    Call<Long> findAllWaterByDate(@Query("date") LocalDate date);
+
+    @DELETE("/meals/{id}")
+    Call<Meal> deleteMealById(@Path("id") Long id);
 }

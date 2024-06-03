@@ -11,7 +11,7 @@
         android:usesCleartextTraffic="true"
         android:targetSandboxVersion="1"
         android:theme="@style/Theme.FoodHelperApp">
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".IngredientActivity" />
         <activity android:name=".RecipeActivity" />

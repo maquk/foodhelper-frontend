@@ -1,9 +1,11 @@
 package com.maquk.foodhelperapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
 import com.maquk.foodhelperapp.pojo.Meal;
 import com.maquk.foodhelperapp.pojo.Nutrient;
+import com.maquk.foodhelperapp.pojo.ProductConsumed;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,28 +34,39 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-    TableLayout tableLayout;
-    String date = "SELECT DATE";
-    Nutrient nutrient = new Nutrient();
-    Button button;
-    Bundle bundle;
+    public static final String STRING_DATE = "STRING_DATE";
+    private APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+    private BigDecimal amountOfWaterInMilliliters;
+    private Bundle bundle;
+    private Button dateButton;
+    private ImageButton imageButton;
+    private Long selectedMealId;
+    private Nutrient nutrient;
+    private TableLayout tableLayout;
+    private TextView selectedMealTextView;
+
+    private static BigDecimal waterNeed = BigDecimal.valueOf(2000);
+    private static Long HEIGHT = 170L;
+    private static String DOMINIK = "Dominik";
+    private static String SELECT_DATE = "SELECT DATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        this.setContentView(R.layout.activity_main);
 
-        tableLayout = findViewById(R.id.mealTable);
-        button = (Button) findViewById(R.id.dateButton);
+        imageButton = this.findViewById(R.id.mainMenuImageButton);
+        imageButton.setImageResource(R.drawable.profile_icon);
+        tableLayout = this.findViewById(R.id.mealTable);
+        dateButton = this.findViewById(R.id.dateButton);
         bundle = savedInstanceState;
-        refreshDate(savedInstanceState);
+        this.refreshDate(savedInstanceState);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshDate(bundle);
+        this.refreshDate(bundle);
     }
 
     private void refreshDate(Bundle bundle) {
@@ -70,23 +84,35 @@ public class MainActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.dateButton);
         button.setText(date);
 
-        if(!date.equals("SELECT DATE")) {
-            Call<Nutrient> call = apiInterface.findAllByDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        if(!SELECT_DATE.equals("SELECT DATE")) {
+            Call<Nutrient> call = apiInterface.findAllByDate(LocalDate.parse(SELECT_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             call.enqueue(new Callback<Nutrient>() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(Call<Nutrient> call, Response<Nutrient> response) {
                     tableLayout.removeAllViews();
                     nutrient = response.body();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     for (Meal meal: nutrient.getMeals()
                          ) {
-
                         for (String name : meal.getMealNames()
                              ) {
                             TableRow row = new TableRow(tableLayout.getContext());
                             row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                             TextView tv = new TextView(row.getContext());
-                            tv.setText(name);
+                            BigDecimal mealGrams = BigDecimal.ZERO;
+                            for (ProductConsumed product: meal.getProductConsumeds()
+                                 ) {
+                                mealGrams = mealGrams.add(product.getGrams());
+                            }
+                            tv.setText(name + ", " + mealGrams.toString() + "g");
                             tv.setOnClickListener(view -> {
+                                        selectedMealId = meal.getId();
+                                        selectedMealTextView = tv;
                                         Toast.makeText(getApplicationContext(), "I clicked " + name, Toast.LENGTH_SHORT).show();
                                     }
                             );
@@ -110,6 +136,24 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<Nutrient> call, Throwable t) {
                     System.out.println("CALL FOR MEALS FAILED!");
+                    call.cancel();
+                }
+
+            });
+            Call<Long> call2 = apiInterface.findAllWaterByDate(LocalDate.parse(SELECT_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            call2.enqueue(new Callback<Long>() {
+                @Override
+                public void onResponse(Call<Long> call, Response<Long> response) {
+                    System.out.println("ODEBRALEM WODE: " + response.body());
+                    amountOfWaterInMilliliters = BigDecimal.valueOf(response.body());
+
+                    AnyChartView chartWater = (AnyChartView) findViewById(R.id.chartWater);
+                    setupPieChart(chartWater, "Water");
+                }
+
+                @Override
+                public void onFailure(Call<Long> call, Throwable t) {
+                    //System.out.println("CALL FOR WATER FAILED!");
                     call.cancel();
                 }
 
@@ -139,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
                 dataEntries.add(new ValueDataEntry("Consumed", nutrient.getCarbohydrates()));
                 dataEntries.add(new ValueDataEntry("Left", BigDecimal.valueOf(19).subtract(nutrient.getCarbohydrates())));
                 break;
+            case "Water":
+                dataEntries.add(new ValueDataEntry("Drank", amountOfWaterInMilliliters));
+                dataEntries.add(new ValueDataEntry("Left", waterNeed.subtract(amountOfWaterInMilliliters)));
+                System.out.println("Water: " + amountOfWaterInMilliliters);
             default:
                 break;
         }
@@ -148,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToCalendarActivity(View view) {
         Intent intent = new Intent(this, CalendarActivity.class);
-        intent.putExtra("STRING_DATE", button.getText());
+        intent.putExtra("STRING_DATE", dateButton.getText());
 
         startActivity(intent);
 
@@ -168,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToProfileActivity(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
-
+        intent.putExtra("HEIGHT", HEIGHT);
+        intent.putExtra("USERNAME", DOMINIK);
         startActivity(intent);
     }
 
@@ -177,4 +226,25 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    public void removeMeal(View view) {
+        Call<Meal> call = apiInterface.deleteMealById(selectedMealId);
+        call.enqueue(new Callback<Meal>() {
+            @Override
+            public void onResponse(Call<Meal> call, Response<Meal> response) {
+                System.out.println("MEAL SUCCESFULLY DELETED");
+                tableLayout.removeView(selectedMealTextView);
+                refreshDate(bundle);
+            }
+
+            @Override
+            public void onFailure(Call<Meal> call, Throwable t) {
+                tableLayout.removeView(selectedMealTextView);
+                refreshDate(bundle);
+                call.cancel();
+            }
+
+        });
+    }
+
 }

@@ -65,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:onClick="goToRecipeActivity"
+        android:onClick="closeIngredientActivity"
         android:text="@string/save_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/gramsEditText"
         app:layout_constraintEnd_toEndOf="parent"

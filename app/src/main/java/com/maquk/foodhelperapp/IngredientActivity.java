@@ -21,24 +21,82 @@ import retrofit2.Response;
 
 public class IngredientActivity extends AppCompatActivity {
 
-    APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-    TableLayout tableLayout;
-    EditText ingredientEditText;
-    EditText gramsEditText;
-    String chosenProductName;
+    public static final String EMPTY_STRING = "";
+    private final String GRAMS = "GRAMS";
+    private final String PRODUCT_NAME = "PRODUCT_NAME";
+    private final String I_CLICKED = "I clicked ";
+    private APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+    private TableLayout tableLayout;
+    private EditText ingredientEditText;
+    private EditText gramsEditText;
+    private String chosenProductName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ingredient);
+        this.setContentView(R.layout.activity_ingredient);
         tableLayout = findViewById(R.id.productTable);
         ingredientEditText = findViewById(R.id.ingredientEditText);
         gramsEditText = findViewById(R.id.gramsEditText);
+    }
 
+    public void closeIngredientActivity(View view) {
+        Intent intent = new Intent(this, RecipeActivity.class);
+        //TODO zmienić to na BigDecimal XDDDDD
+        intent.putExtra(GRAMS, Long.parseLong(gramsEditText.getText().toString()));
+        intent.putExtra(PRODUCT_NAME, chosenProductName);
+        this.setResult(RESULT_OK, intent);
+        this.finish();
+    }
+
+    public void goToProductActivity(View view) {
+        Intent intent = new Intent(this, ProductActivity.class);
+        this.startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.fetchProducts();
+    }
+
+    public void searchForProduct(View view) {
+        String ingredientName = ingredientEditText.getText().toString();
+        if(ingredientName.equals(EMPTY_STRING)) {
+            this.fetchProducts();
+            return;
+        } else {
+            Call<Product> call = apiInterface.getProduct(ingredientName);
+            call.enqueue(new Callback<Product>() {
+                @Override
+                public void onResponse(Call<Product> call, Response<Product> response) {
+                    tableLayout.removeAllViews();
+                    Product product = response.body();
+                    TableRow row = new TableRow(tableLayout.getContext());
+                    row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                    TextView tv = new TextView(row.getContext());
+                    tv.setText(product.getName());
+                    chosenProductName = product.getName();
+                    tv.setOnClickListener(view -> {
+                                Toast.makeText(getApplicationContext(), I_CLICKED + product.getName(), Toast.LENGTH_SHORT).show();
+                                chosenProductName = product.getName();
+                            }
+                    );
+                    row.addView(tv);
+                    tableLayout.addView(row);
+                }
+
+                @Override
+                public void onFailure(Call<Product> call, Throwable t) {
+                    call.cancel();
+                }
+
+            });
+        }
 
     }
 
-    private void getProducts() {
+    private void fetchProducts() {
         Call<List<Product>> call = apiInterface.getProducts();
         call.enqueue(new Callback<List<Product>>() {
             @Override
@@ -56,9 +114,9 @@ public class IngredientActivity extends AppCompatActivity {
                     TextView tv = new TextView(row.getContext());
                     tv.setText(product.getName());
                     tv.setOnClickListener(view -> {
-                        Toast.makeText(getApplicationContext(), "I clicked " + product.getName(), Toast.LENGTH_SHORT).show();
-                        chosenProductName = product.getName().toString();
-                        }
+                                Toast.makeText(getApplicationContext(), I_CLICKED + product.getName(), Toast.LENGTH_SHORT).show();
+                                chosenProductName = product.getName();
+                            }
                     );
                     row.addView(tv);
                     tableLayout.addView(row);
@@ -71,62 +129,5 @@ public class IngredientActivity extends AppCompatActivity {
             }
 
         });
-    }
-
-    public void goToRecipeActivity(View view) {
-        Long grams = Long.parseLong(gramsEditText.getText().toString());
-        Intent intent = new Intent(this, RecipeActivity.class);
-        intent.putExtra("GRAMS", grams);
-        intent.putExtra("PRODUCT_NAME", chosenProductName);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    public void goToProductActivity(View view) {
-        Intent intent = new Intent(this, ProductActivity.class);
-
-        startActivity(intent);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getProducts();
-    }
-
-    public void searchForProduct(View view) {
-        String name = ingredientEditText.getText().toString();
-        if(name.equals("")) {
-            getProducts();
-            return;
-        } else {
-            Call<Product> call = apiInterface.getProduct(name);
-            call.enqueue(new Callback<Product>() {
-                @Override
-                public void onResponse(Call<Product> call, Response<Product> response) {
-                    tableLayout.removeAllViews();
-                    Product product = response.body();
-                    TableRow row = new TableRow(tableLayout.getContext());
-                    row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-                    TextView tv = new TextView(row.getContext());
-                    tv.setText(product.getName());
-                    chosenProductName = product.getName();
-                    tv.setOnClickListener(view -> {
-                                Toast.makeText(getApplicationContext(), "I clicked " + product.getName(), Toast.LENGTH_SHORT).show();
-                                chosenProductName = product.getName();
-                            }
-                    );
-                    row.addView(tv);
-                    tableLayout.addView(row);
-                }
-
-                @Override
-                public void onFailure(Call<Product> call, Throwable t) {
-                    call.cancel();
-                }
-
-            });
-        }
-
     }
 }

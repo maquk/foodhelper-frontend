@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -81,6 +82,7 @@ public class RecipeActivity extends AppCompatActivity {
         String name = getIntent().getExtras().getString("RECIPE_NAME");
         Call<Recipe> call = apiInterface.getRecipe(name);
         call.enqueue(new Callback<Recipe>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<Recipe> call, Response<Recipe> response) {
                 tableLayout.removeAllViews();
@@ -90,7 +92,7 @@ public class RecipeActivity extends AppCompatActivity {
                     TableRow row = new TableRow(tableLayout.getContext());
                     row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                     TextView tv = new TextView(row.getContext());
-                    tv.setText(product.getProduct().getName());
+                    tv.setText(product.getProduct().getName() + ", " + product.getProduct().getGrams() + "g");
                     tv.setOnClickListener(view -> {
                         Toast.makeText(getApplicationContext(), "I clicked " + product.getProduct().getName(), Toast.LENGTH_SHORT).show();
                         chosenIngredientName = product.getProduct().getName();

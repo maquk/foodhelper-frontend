@@ -7,11 +7,13 @@
     tools:context=".ProfileActivity">
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/profileImageButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/profile_picture"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,11 +25,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="Your Name"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toEndOf="@+id/imageButton2"
+        app:layout_constraintStart_toEndOf="@+id/profileImageButton"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
@@ -36,13 +37,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="@string/insert_your_height"
         android:importantForAutofill="no"
         android:inputType="numberSigned|textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
 
     <Button
         android:id="@+id/saveHeightButton"
@@ -59,20 +60,46 @@
     <LinearLayout
         android:layout_width="359dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/heightEditText"
-        app:layout_constraintVertical_bias="0.522">
+        app:layout_constraintTop_toBottomOf="@+id/heightEditText">
+
         <com.anychart.AnyChartView
             android:id="@+id/chartWeight"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp" />
+
         <com.anychart.AnyChartView
             android:id="@+id/chartBMI"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="40dp"/>
+            android:layout_marginTop="20dp" />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/userNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/name_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileImageButton"
+        android:importantForAutofill="no" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="saveName"
+        android:text="@string/save_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/userNameEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userNameEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,10 +7,12 @@
     tools:context=".MainActivity">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/mainMenuImageButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="24dp"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         android:layout_marginEnd="24dp"
         android:contentDescription="@string/profile_picture"
         android:onClick="goToProfileActivity"
@@ -26,7 +28,7 @@
         android:backgroundTint="@android:color/holo_blue_light"
         android:onClick="goToCalendarActivity"
         android:text="@string/select_date"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/mainMenuImageButton"
         app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +38,7 @@
         android:id="@+id/addFoodButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="12dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@android:color/holo_blue_light"
         android:onClick="goToMealActivity"
@@ -45,10 +47,22 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/removeFoodButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:onClick="removeMeal"
+        android:text="@string/remove_meal_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/weightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="64dp"
         android:backgroundTint="@android:color/holo_blue_light"
         android:onClick="goToWeightActivity"
         android:text="@string/weight_button_text"
@@ -64,7 +78,7 @@
         android:text="@string/tips_button_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/weightButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintHorizontal_bias="0.753"
         app:layout_constraintStart_toEndOf="@+id/weightButton" />
 
     <ScrollView
@@ -74,7 +88,7 @@
         android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton">
+        app:layout_constraintTop_toBottomOf="@+id/mainMenuImageButton">
 
         <TableLayout
             android:id="@+id/mealTable"
@@ -101,7 +115,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView5">
+        app:layout_constraintTop_toBottomOf="@+id/mealScrollView">
 
         <TableRow>
 
@@ -114,17 +128,26 @@
                 android:id="@+id/chartFat"
                 android:layout_width="135dp"
                 android:layout_height="135dp" />
-        </TableRow>
-
-        <TableRow>
 
             <com.anychart.AnyChartView
                 android:id="@+id/chartProtein"
                 android:layout_width="135dp"
                 android:layout_height="135dp" />
+        </TableRow>
+
+        <TableRow
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
 
             <com.anychart.AnyChartView
                 android:id="@+id/chartCarbohydrates"
+                android:layout_width="135dp"
+                android:layout_height="135dp"/>
+
+            <com.anychart.AnyChartView
+                android:id="@+id/chartWater"
                 android:layout_width="135dp"
                 android:layout_height="135dp" />
         </TableRow>

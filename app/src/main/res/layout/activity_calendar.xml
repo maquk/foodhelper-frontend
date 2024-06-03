@@ -22,7 +22,7 @@
             android:textColor="@color/blue"
             android:backgroundTint="@color/white"
             android:textStyle="bold"
-            android:onClick="previousMonthAction"
+            android:onClick="changeScreenToPreviousMonth"
             android:textSize="20sp"
         />
         <TextView
@@ -46,7 +46,7 @@
             android:textColor="@color/blue"
             android:backgroundTint="@color/white"
             android:textStyle="bold"
-            android:onClick="nextMonthAction"
+            android:onClick="changeScreenToNextMonth"
             android:textSize="20dp"
             />
 

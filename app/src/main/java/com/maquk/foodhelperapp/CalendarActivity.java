@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -16,6 +15,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
+
+    private final int NUMBER_OF_DAYS_IN_6_WEEKS = 42;
+    private final String EMPTY_STRING = "";
+    private final String DATE_FORMAT = "yyyy-MM-dd";
+    private final String SELECT_DATE = "SELECT DATE";
+    private final String STRING_DATE = "STRING_DATE";
 
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
@@ -25,31 +30,35 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
-        initWidgets();
+        this.setContentView(R.layout.activity_calendar);
+        this.initWidgets();
         String datePassed = null;
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) datePassed = extras.getString("STRING_DATE");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Bundle extras = this.getIntent().getExtras();
+        if(extras != null) {
+            if(!extras.getString(STRING_DATE).isEmpty()) {
+                datePassed = extras.getString(STRING_DATE);
+            }
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         System.out.println(datePassed);
-        if(!datePassed.equals("SELECT DATE")) {
+        if(!datePassed.equals(SELECT_DATE)) {
             selectedDate = LocalDate.parse(datePassed, formatter);
         } else {
             selectedDate = LocalDate.now();
         }
-        setMonthView();
+        this.setMonthView();
     }
 
     private void initWidgets()
     {
-        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
-        monthYearText = findViewById(R.id.monthYearTV);
+        calendarRecyclerView = this.findViewById(R.id.calendarRecyclerView);
+        monthYearText = this.findViewById(R.id.monthYearTV);
     }
 
     private void setMonthView()
     {
-        monthYearText.setText(monthYearFromDate(selectedDate));
-        ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
+        monthYearText.setText(formatDate(selectedDate));
+        ArrayList<String> daysInMonth = this.getArrayOfDaysInTheMonth(selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
@@ -57,56 +66,56 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-    private ArrayList<String> daysInMonthArray(LocalDate date)
+    private ArrayList<String> getArrayOfDaysInTheMonth(LocalDate date)
     {
         ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(date);
+        YearMonth yearAndMonth = YearMonth.from(date);
 
-        int daysInMonth = yearMonth.lengthOfMonth();
+        int amountOfDaysInMonth = yearAndMonth.lengthOfMonth();
 
-        LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
+        LocalDate firstDayOfMonthOfSelectedDate = selectedDate.withDayOfMonth(1);
+        int numericValueOfDayOfWeekOfFirstDayOfTheMonthOfSelectedDate = firstDayOfMonthOfSelectedDate.getDayOfWeek().getValue();
 
-        for(int i = 1; i <= 42; i++)
+        for(int i = 1; i <= NUMBER_OF_DAYS_IN_6_WEEKS; i++)
         {
-            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
+            if(i <= numericValueOfDayOfWeekOfFirstDayOfTheMonthOfSelectedDate || i > amountOfDaysInMonth + numericValueOfDayOfWeekOfFirstDayOfTheMonthOfSelectedDate)
             {
-                daysInMonthArray.add("");
+                daysInMonthArray.add(EMPTY_STRING);
             }
             else
             {
-                daysInMonthArray.add(String.valueOf(i - dayOfWeek));
+                daysInMonthArray.add(String.valueOf(i - numericValueOfDayOfWeekOfFirstDayOfTheMonthOfSelectedDate));
             }
         }
         return daysInMonthArray;
     }
 
-    private String monthYearFromDate(LocalDate date)
+    private String formatDate(LocalDate date)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         return date.format(formatter);
     }
 
-    public void previousMonthAction(View view)
+    public void changeScreenToPreviousMonth(View view)
     {
         selectedDate = selectedDate.minusMonths(1);
-        setMonthView();
+        this.setMonthView();
     }
 
-    public void nextMonthAction(View view)
+    public void changeScreenToNextMonth(View view)
     {
         selectedDate = selectedDate.plusMonths(1);
-        setMonthView();
+        this.setMonthView();
     }
 
     @Override
     public void onItemClick(int position, String dayText)
     {
-        if(!dayText.equals(""))
+        if(!dayText.equals(EMPTY_STRING))
         {
             Intent i = new Intent(this, MainActivity.class);
-            i.putExtra("STRING_DATE", monthYearFromDate(selectedDate.withDayOfMonth(Integer.parseInt(dayText))));
-            startActivity(i);
+            i.putExtra(STRING_DATE, formatDate(selectedDate.withDayOfMonth(Integer.parseInt(dayText))));
+            this.startActivity(i);
         }
     }
 }

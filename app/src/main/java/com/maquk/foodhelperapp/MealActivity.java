@@ -17,7 +17,10 @@ import com.maquk.foodhelperapp.pojo.Recipe;
 import com.maquk.foodhelperapp.pojo.Water;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -130,7 +133,6 @@ public class MealActivity extends AppCompatActivity {
                 ) {
                     product.setGrams(product.getGrams().multiply(BigDecimal.valueOf(portions)));
                 }
-
                 Meal meal = new Meal(null, recipe.getProducts());
                 meal.addToList(recipe.getName());
                 Call<Meal> call2 = apiInterface.createMeal(meal);

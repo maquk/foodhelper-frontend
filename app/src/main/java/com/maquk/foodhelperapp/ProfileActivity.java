@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,10 @@ public class ProfileActivity extends AppCompatActivity {
     APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
     List<Weight> weights = new ArrayList<>();
     BigDecimal height;
+    String userName = "";
+    TextView nameTextView;
+    ImageButton imageButton;
+    EditText nameEditText;
     EditText heightEditText;
     AnyChartView chartWeight;
     AnyChartView chartBMI;
@@ -49,12 +54,25 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        imageButton = findViewById(R.id.profileImageButton);
+        nameTextView = findViewById(R.id.nameTextView);
         heightEditText = findViewById(R.id.heightEditText);
+        nameEditText = findViewById(R.id.userNameEditText);
+
+        imageButton.setImageResource(R.drawable.profile_icon);
 
         getWeights();
 
         chartWeight = findViewById(R.id.chartWeight);
         chartBMI = findViewById(R.id.chartBMI);
+
+        height = BigDecimal.valueOf(getIntent().getExtras().getLong("HEIGHT"));
+        userName = getIntent().getExtras().getString("USERNAME");
+        System.out.println("height: " + height + ", userName: " + userName);
+
+        nameTextView.setText(userName);
+
+
     }
 
     private void getWeights() {
@@ -63,6 +81,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Weight>> call, Response<List<Weight>> response) {
                 weights.addAll(response.body());
+                setChartWeight(chartWeight);
+                setChartBMI(chartBMI);
             }
             @Override
             public void onFailure(Call<List<Weight>> call, Throwable t) {
@@ -94,10 +114,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         List<DataEntry> seriesData = new ArrayList<>();
 
+
         for (Weight weight : weights
         ) {
             BigDecimal weightInKg = weight.getKilograms();
             BigDecimal heightInM = height.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            System.out.println("height: " + heightInM);
             seriesData.add(new ValueDataEntry(String.valueOf(weight.getDate()), weightInKg.divide(heightInM.pow(2), 2, RoundingMode.HALF_UP)));
 
         }
@@ -123,6 +145,8 @@ public class ProfileActivity extends AppCompatActivity {
         cartesian.legend().padding(0d, 0d, 10d, 0d);
 
         chart.setChart(cartesian);
+
+        chart.refreshDrawableState();
     }
 
     public void setChartWeight(AnyChartView chart) {
@@ -178,10 +202,18 @@ public class ProfileActivity extends AppCompatActivity {
     }
     
     public void saveHeight(View view) {
-        height = BigDecimal.valueOf(Long.parseLong(heightEditText.getText().toString()));
+        if(!heightEditText.getText().toString().matches("")) {
+            height = BigDecimal.valueOf(Long.parseLong(heightEditText.getText().toString()));
+            MainActivity.height = height.longValue();
+        }
 
         setChartWeight(chartWeight);
         setChartBMI(chartBMI);
+    }
 
+    public void saveName(View view) {
+        userName = nameEditText.getText().toString();
+        nameTextView.setText(userName);
+        MainActivity.userName = userName;
     }
 }

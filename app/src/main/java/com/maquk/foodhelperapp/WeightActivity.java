@@ -20,12 +20,14 @@ import retrofit2.Response;
 public class WeightActivity extends AppCompatActivity {
     APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
     EditText weightEditText;
+    EditText waterEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weight);
         weightEditText = findViewById(R.id.weightEditText);
+        waterEditText = findViewById(R.id.waterEditText);
     }
 
     public void saveWeight(View view) {
@@ -44,6 +46,16 @@ public class WeightActivity extends AppCompatActivity {
             }
 
         });
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        startActivity(intent);
+    }
+
+    public void saveWater(View view) {
+        if(!waterEditText.getText().toString().matches("")) {
+            MainActivity.waterNeed = BigDecimal.valueOf(Long.parseLong(waterEditText.getText().toString()));
+        }
 
         Intent intent = new Intent(this, MainActivity.class);
 

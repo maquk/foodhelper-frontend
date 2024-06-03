@@ -48,5 +48,8 @@
         <a href="https://therealfooddietitians.com/blog/">https://therealfooddietitians.com/blog/</a> - Features recipes for each, plus tips for meal prep efficiency. Not only are there tons of dietitian-authored recipes, but you can also opt in for customized meal plans. The Real Food Dietitians is the passion-driven product of Registered Dietitian Nutritionists who have combined their love of nutrition, health, and real food with the concepts of ease and convenience to bring you recipes that are big on flavor but short on ingredients.\n
         <a href="https://karalydon.com/blog/">https://karalydon.com/blog/</a> - Covers articles on health and wellness, intuitive eating, recipes, travel, yoga and mindfulness. Kara is a registered dietitian and blogger on a mission to inspire you to find a joyful love of food and peaceful balance in life.\n
         <a href="https://diettogo.com/blog">https://diettogo.com/blog</a> - Covers articles on nutrition science, psychology, weight loss, recipes, lifestyle and wellness, kitchen tips, healthy snack ideas, exercise tips and more. Diet-to-Go is a meal delivery company focused on making healthy eating both easy and affordable. Our goal is to change perceptions of what it means to eat healthy and help our customers achieve and maintain a healthy weight for life.</string>
+    <string name="name_hint">Insert your name...</string>
+    <string name="water_edit_text_text">Enter your current water demand</string>
+    <string name="remove_meal_text">REMOVE MEAL</string>
 
 </resources>
